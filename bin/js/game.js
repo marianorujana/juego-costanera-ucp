@@ -74,12 +74,13 @@ var Costanera = (function () {
         // center of the screen, and set the anchor to the center of
         // the image so it's centered properly. There's a lot of
         // centering in that last sentence
+        //Seteamos la imagen del juego en la posicion '0,0'
+        //y el ancho y alto de la misma según el tamaño de la ventana actual
         var logo = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.centerY, 'costanera');
         logo.x = 0;
         logo.y = 0;
         logo.height = this.getGame().height;
         logo.width = this.getGame().width;
-        //logo.anchor.setTo( 0.5, 0.5 );
         var personaje = this.getGame().add.sprite(100, 200, 'player');
         personaje.height = 150;
         personaje.width = 75;
