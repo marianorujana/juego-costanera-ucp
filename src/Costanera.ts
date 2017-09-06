@@ -96,6 +96,7 @@ class Costanera
 		this.getGame().load.image('player', 'sprites/phaser-dude.png');
 		this.getGame().load.image( 'costanera', "assets/costanera.jpg" );
 		
+		//Agregamos un comentario para probar subir cambios a GIT desde el editor
 		
 	}
 	
