@@ -97,6 +97,7 @@ class Costanera
 		this.getGame().load.image( 'costanera', "assets/costanera.jpg" );
 		
 		//Agregamos un comentario para probar subir cambios a GIT desde el editor
+		//hacemos un cambio en el archivo
 		
 	}
 	
