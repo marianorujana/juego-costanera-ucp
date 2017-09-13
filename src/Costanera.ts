@@ -8,6 +8,8 @@ class Costanera
 	personaje: Phaser.Sprite;
 	cursores:Phaser.CursorKeys;
 	saltarBtn:Phaser.Key;
+	facing: string;
+	
 
 //--------------------setters y getters --------------------------------------
 	setGame(game: Phaser.Game ){
@@ -58,6 +60,14 @@ class Costanera
 		return this.saltarBtn;
 	}
 
+	setFacing(facing: string){
+		this.facing = facing;
+	}
+
+	getFacing(){
+		return this.facing;
+	}
+
 
 
 
@@ -69,7 +79,7 @@ class Costanera
 		// Phaser.AUTO - determine the renderer automatically (canvas, webgl)
 		// 'content' - the name of the container to add our game to
 		// { preload:this.preload, create:this.create} - functions to call for our states
-		this.setGame(new Phaser.Game( ancho, alto, Phaser.CENTER, 'content', { 
+		this.setGame(new Phaser.Game( ancho, alto, Phaser.CANVAS, 'content', { 
 			preload:this.preload, 
 			create:this.create, 
 			update: this.update,
@@ -85,6 +95,8 @@ class Costanera
 			getCursores: this.getCursores,
 			setSaltarBtn: this.setSaltarBtn,
 			getSaltarBtn: this.getSaltarBtn,
+			getFacing: this.getFacing,
+			setFacing: this.setFacing
 		} ));
 	}
 	
@@ -93,7 +105,8 @@ class Costanera
 		// add our logo image to the assets class under the
 		// key 'logo'. We're also setting the background colour
 		// so it's the same as the background colour in the image
-		this.getGame().load.image('player', 'sprites/phaser-dude.png');
+		// this.getGame().load.image('player', 'sprites/dude.png');
+		this.getGame().load.spritesheet('player', 'sprites/dude.png', 32, 48);
 		this.getGame().load.image( 'costanera', "assets/costanera.jpg" );
 		
 		//Agregamos un comentario para probar subir cambios a GIT desde el editor
@@ -116,15 +129,26 @@ class Costanera
 		logo.height = this.getGame().height;
 		logo.width = this.getGame().width;
 
+		this.getGame().physics.startSystem(Phaser.Physics.ARCADE);
+		this.getGame().time.desiredFps = 30;
+
+		this.getGame().physics.arcade.gravity.y = 250;
+
 		var personaje = this.getGame().add.sprite(100, 200, 'player');
-		personaje.height = 150;
-		personaje.width = 75;
+		personaje.height = 200;
+		personaje.width = 100;
 		this.setPersonaje(personaje);
 		
-		this.getGame().physics.arcade.enable(this.getPersonaje());
-		
+		this.getGame().physics.enable(this.getPersonaje(),Phaser.Physics.ARCADE);
+				
+		//Personaje
 		this.getPersonaje().body.collideWorldBounds = true;
 		this.getPersonaje().body.gravity.y = 500;
+		this.getPersonaje().body.setSize(20, 32, 5, 16);
+		this.getPersonaje().animations.add('left', [0, 1, 2, 3], 10, true);
+		this.getPersonaje().animations.add('turn', [4], 20, true);
+		this.getPersonaje().animations.add('right', [5, 6, 7, 8], 10, true);
+		this.setFacing('left');
 		
 		this.setCursores(this.getGame().input.keyboard.createCursorKeys());
 		this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
@@ -139,17 +163,38 @@ class Costanera
 			if (this.getCursores().left.isDown)
 			{
 				this.getPersonaje().body.velocity.x = -250;
+				if (this.getFacing() != 'left'){
+						this.getPersonaje().animations.play('left');
+						this.setFacing('left');
+				}
 			}
-			else if (this.getCursores().right.isDown)
-			{
+			else if (this.getCursores().right.isDown){
 				this.getPersonaje().body.velocity.x = 250;
+				if (this.getFacing() != 'right'){
+						this.getPersonaje().animations.play('right');
+						this.setFacing('right');
+				}
+			} else {
+				if (this.getFacing() != 'idle'){
+						this.getPersonaje().animations.stop();
+			
+						if (this.getFacing() == 'left'){
+							this.getPersonaje().frame = 0;
+						}
+						else{
+							this.getPersonaje().frame = 5;
+						}
+						this.setFacing('idle')
+				}
 			}
 		
-			if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor() || this.getPersonaje().body.touching.down))
+			if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor()))
 			{
-				this.getPersonaje().body.velocity.y = -400;
+				this.getPersonaje().body.velocity.y = -800;
 			}
-		}
+	}
+
+	
 }
 
 // when the page has finished loading, create our game
