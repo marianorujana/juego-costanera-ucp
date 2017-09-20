@@ -1,5 +1,5 @@
-/// <reference path="../tsDefinitions/phaser.d.ts" />
-
+// /// <reference path="../tsDefinitions/phaser.d.ts" />
+import {Personaje} from './Personaje'
 class Costanera
 {
 	game:Phaser.Game;

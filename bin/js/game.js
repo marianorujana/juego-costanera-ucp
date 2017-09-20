@@ -8,7 +8,15 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-/// <reference path="../tsDefinitions/phaser.d.ts" />
+// /// <reference path="../tsDefinitions/phaser.d.ts" />
+var Bonus = (function (_super) {
+    __extends(Bonus, _super);
+    function Bonus() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return Bonus;
+}(Phaser.Sprite));
+
 var Costanera = (function () {
     function Costanera(ancho, alto) {
         // create our phaser game

@@ -1,4 +1,5 @@
-/// <reference path="../tsDefinitions/phaser.d.ts" />
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Costanera = (function () {
     function Costanera(ancho, alto) {
         // create our phaser game
@@ -122,7 +123,7 @@ var Costanera = (function () {
         this.getGame().physics.startSystem(Phaser.Physics.ARCADE);
         this.getGame().time.desiredFps = 30;
         this.getGame().physics.arcade.gravity.y = 250;
-        var personaje = this.getGame().add.sprite(100, 200, 'player');
+        var personaje = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
         personaje.height = 200;
         personaje.width = 100;
         this.setPersonaje(personaje);
@@ -170,18 +171,16 @@ var Costanera = (function () {
         this.getEmitter().setXSpeed(-5, 5);
         this.getEmitter().start(false, 1600, 1, 0);
         //emitter bonus
-        var emitterBonus = this.getGame().add.emitter(0, this.getGame().world.centerY, 5);
+        var emitterBonus = this.getGame().add.emitter(this.getGame().world.width, this.getGame().world.bottom - 100, 5);
         this.setEmitter(emitterBonus);
         // this.getEmitter().width = this.getGame().world.width;
         this.getEmitter().makeParticles('bonus', null, 1, true);
         // emitter.minParticleScale = 0.1;
         // emitter.maxParticleScale = 0.5;
-        this.getEmitter().setYSpeed(0, 0);
-        this.getEmitter().setXSpeed(500, 500);
-        var myPoint = new Phaser.Point(100, 100);
-        this.getEmitter().gravity.setTo(0, 0);
+        this.getEmitter().setYSpeed(-100, 0);
+        this.getEmitter().setXSpeed(-1000, -500);
+        this.getEmitter().gravity.y = -100;
         this.getEmitter().start(false, 1600, 1, 0);
-        var mynumber = 90;
         //this.getEmitter().gravity(0,0);
         //this.getEmitter().setRotation(90, 0);
     };
@@ -217,7 +216,7 @@ var Costanera = (function () {
             }
         }
         if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor())) {
-            this.getPersonaje().body.velocity.y = -800;
+            this.getPersonaje().body.velocity.y = -600;
         }
     };
     Costanera.prototype.collisionHandler = function (objetos, personaje) {
