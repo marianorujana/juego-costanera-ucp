@@ -7,6 +7,7 @@ class Costanera
 	alto:number;
 	personaje: Phaser.Sprite;
 	obstaculo: Phaser.Sprite;
+	bonus: Phaser.Sprite;
 	cursores:Phaser.CursorKeys;
 	saltarBtn:Phaser.Key;
 	facing: string;
@@ -52,6 +53,14 @@ class Costanera
 
 	getObstaculo (){
 		return this.obstaculo;
+	}
+
+	setBonus(value: Phaser.Sprite){
+		this.bonus = value;
+	}
+
+	getBonus (){
+		return this.bonus;
 	}
 
 	setCursores(cursores: Phaser.CursorKeys ){
@@ -111,6 +120,8 @@ class Costanera
 			getPersonaje: this.getPersonaje,
 			setObstaculo: this.setObstaculo,
 			getObstaculo: this.getObstaculo,
+			setBonus: this.setBonus,
+			getBonus: this.getBonus,
 			setCursores: this.setCursores,
 			getCursores: this.getCursores,
 			setSaltarBtn: this.setSaltarBtn,
@@ -130,6 +141,7 @@ class Costanera
 		// key 'logo'. We're also setting the background colour
 		// so it's the same as the background colour in the image
 		this.getGame().load.image('obstaculo', 'assets/obstaculo.png');
+		this.getGame().load.image('bonus', 'assets/hamburguesa.png');
 		this.getGame().load.spritesheet('player', 'sprites/dude.png', 32, 48);
 		this.getGame().load.image( 'costanera', "assets/costanera.jpg" );
 		
@@ -158,7 +170,7 @@ class Costanera
 
 		this.getGame().physics.arcade.gravity.y = 250;
 
-		var personaje = this.getGame().add.sprite(100, 200, 'player');
+		var personaje = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
 		personaje.height = 200;
 		personaje.width = 100;
 		this.setPersonaje(personaje);
@@ -180,19 +192,33 @@ class Costanera
 		obstaculo.name = 'obstaculo';
 	
 		this.getGame().physics.enable(obstaculo, Phaser.Physics.ARCADE);
-		logo.inputEnabled = true;
-		logo.events.onInputDown.add(this.listener, this);
-		//this.getObstaculo().body.velocity.y = 10;
-	
 		//  This adjusts the collision body size.
 		//  220x10 is the new width/height.
 		//  See the offset bounding box for another example.
 		this.getObstaculo().body.setSize(10, 10, 0, 0);
+
+		//bonus
+		var bonus = this.getGame().add.sprite(300, 50, 'bonus');
+		this.setBonus(bonus);
+		bonus.name = 'bonus';
+	
+		this.getGame().physics.enable(bonus, Phaser.Physics.ARCADE);
+		//  This adjusts the collision body size.
+		//  220x10 is the new width/height.
+		//  See the offset bounding box for another example.
+		this.getBonus().body.setSize(10, 10, 0, 0);
+		
+		//Click event
+		logo.inputEnabled = true;
+		logo.events.onInputDown.add(this.listener, this);
+		//this.getObstaculo().body.velocity.y = 10;
+	
+		
 		
 		this.setCursores(this.getGame().input.keyboard.createCursorKeys());
 		this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
 
-		//emitter
+		//emitter obstaculo
 		var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
 		this.setEmitter(emitter);
 		this.getEmitter().width = this.getGame().world.width;
@@ -205,6 +231,24 @@ class Costanera
 		this.getEmitter().setXSpeed(-5, 5);
 		
 		this.getEmitter().start(false, 1600, 1, 0);
+
+		//emitter bonus
+		var emitterBonus = this.getGame().add.emitter(this.getGame().world.width,this.getGame().world.bottom - 100, 5);
+		this.setEmitter(emitterBonus);
+		// this.getEmitter().width = this.getGame().world.width;
+
+		this.getEmitter().makeParticles('bonus',null,1,true);
+		// emitter.minParticleScale = 0.1;
+		// emitter.maxParticleScale = 0.5;
+	
+		this.getEmitter().setYSpeed(-100, 0);
+		this.getEmitter().setXSpeed(-1000, -500);
+		this.getEmitter().gravity.y = -100;
+		
+		this.getEmitter().start(false, 1600, 1, 0);
+		
+		//this.getEmitter().gravity(0,0);
+		//this.getEmitter().setRotation(90, 0);
 	}
 
 	update () {
@@ -244,7 +288,7 @@ class Costanera
 		
 			if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor()))
 			{
-				this.getPersonaje().body.velocity.y = -800;
+				this.getPersonaje().body.velocity.y = -600;
 			}
 	}
 
@@ -253,15 +297,12 @@ class Costanera
 			// this.getGame().stage.backgroundColor = '#992d2d';
 			// this.getPersonaje().body.velocity.y = -800;
 			objetos.kill();
-			personaje.kill();
-			personaje.revive();
-		
+			personaje.kill();		
 		}
 
 		
 		listener () {
 			this.getPersonaje().revive()
-			
 		}
 
 	
