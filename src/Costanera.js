@@ -20,8 +20,8 @@ var Costanera = (function () {
             getAlto: this.getAlto,
             setPersonaje: this.setPersonaje,
             getPersonaje: this.getPersonaje,
-            setObstaculo: this.setObstaculo,
-            getObstaculo: this.getObstaculo,
+            setBasurero: this.setBasurero,
+            getBasurero: this.getBasurero,
             setBonus: this.setBonus,
             getBonus: this.getBonus,
             setCursores: this.setCursores,
@@ -61,11 +61,11 @@ var Costanera = (function () {
     Costanera.prototype.getPersonaje = function () {
         return this.personaje;
     };
-    Costanera.prototype.setObstaculo = function (value) {
-        this.obstaculo = value;
+    Costanera.prototype.setBasurero = function (value) {
+        this.basurero = value;
     };
-    Costanera.prototype.getObstaculo = function () {
-        return this.obstaculo;
+    Costanera.prototype.getBasurero = function () {
+        return this.basurero;
     };
     Costanera.prototype.setBonus = function (value) {
         this.bonus = value;
@@ -101,7 +101,7 @@ var Costanera = (function () {
         // add our logo image to the assets class under the
         // key 'logo'. We're also setting the background colour
         // so it's the same as the background colour in the image
-        this.getGame().load.image('obstaculo', 'assets/obstaculo.png');
+        this.getGame().load.image('basurero', 'assets/basurero.png');
         this.getGame().load.image('bonus', 'assets/hamburguesa.png');
         this.getGame().load.spritesheet('player', 'sprites/dude.png', 32, 48);
         this.getGame().load.image('costanera', "assets/costanera.jpg");
@@ -136,15 +136,14 @@ var Costanera = (function () {
         this.getPersonaje().animations.add('turn', [4], 20, true);
         this.getPersonaje().animations.add('right', [5, 6, 7, 8], 10, true);
         this.setFacing('left');
-        //obstaculo
-        var obstaculo = this.getGame().add.sprite(300, 50, 'obstaculo');
-        this.setObstaculo(obstaculo);
-        obstaculo.name = 'obstaculo';
-        this.getGame().physics.enable(obstaculo, Phaser.Physics.ARCADE);
+        //Basurero
+        this.setBasurero(this.getGame().add.sprite(300, 50, 'basurero'));
+        this.getBasurero().name = 'basurero';
+        this.getGame().physics.enable(this.getBasurero(), Phaser.Physics.ARCADE);
         //  This adjusts the collision body size.
         //  220x10 is the new width/height.
         //  See the offset bounding box for another example.
-        this.getObstaculo().body.setSize(10, 10, 0, 0);
+        this.getBasurero().body.setSize(10, 10, 0, 0);
         //bonus
         var bonus = this.getGame().add.sprite(300, 50, 'bonus');
         this.setBonus(bonus);
@@ -157,14 +156,14 @@ var Costanera = (function () {
         //Click event
         logo.inputEnabled = true;
         logo.events.onInputDown.add(this.listener, this);
-        //this.getObstaculo().body.velocity.y = 10;
+        //this.getBasurero().body.velocity.y = 10;
         this.setCursores(this.getGame().input.keyboard.createCursorKeys());
         this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
-        //emitter obstaculo
+        //emitter Basurero
         var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
         this.setEmitter(emitter);
         this.getEmitter().width = this.getGame().world.width;
-        this.getEmitter().makeParticles('obstaculo', null, 1, true);
+        this.getEmitter().makeParticles('basurero', null, 1, true);
         // emitter.minParticleScale = 0.1;
         // emitter.maxParticleScale = 0.5;
         this.getEmitter().setYSpeed(100, 200);
@@ -186,7 +185,7 @@ var Costanera = (function () {
     };
     Costanera.prototype.update = function () {
         // this.game.physics.arcade.collide(this.player, platforms);
-        //this.getGame().physics.arcade.collide(this.getObstaculo(), this.getPersonaje(), this.collisionHandler, null, this);
+        //this.getGame().physics.arcade.collide(this.getBasurero(), this.getPersonaje(), this.collisionHandler, null, this);
         this.getGame().physics.arcade.collide(this.getEmitter(), this.getPersonaje(), this.collisionHandler, null, this);
         this.getPersonaje().body.velocity.x = 0;
         if (this.getCursores().left.isDown) {
