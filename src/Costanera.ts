@@ -1,6 +1,6 @@
 // /// <reference path="../tsDefinitions/phaser.d.ts" />
 import {Personaje} from './Personaje'
-class Costanera
+export class Costanera
 {
 	game:Phaser.Game;
 	ancho: number;

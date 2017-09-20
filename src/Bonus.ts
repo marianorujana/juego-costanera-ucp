@@ -1,6 +1,6 @@
 
 // /// <reference path="../tsDefinitions/phaser.d.ts" />
 
-abstract class Bonus extends Phaser.Sprite{
+export abstract class Bonus extends Phaser.Sprite{
 
 }

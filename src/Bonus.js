@@ -1,3 +1,4 @@
+"use strict";
 // /// <reference path="../tsDefinitions/phaser.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -9,6 +10,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+Object.defineProperty(exports, "__esModule", { value: true });
 var Bonus = (function (_super) {
     __extends(Bonus, _super);
     function Bonus() {
@@ -16,3 +18,4 @@ var Bonus = (function (_super) {
     }
     return Bonus;
 }(Phaser.Sprite));
+exports.Bonus = Bonus;

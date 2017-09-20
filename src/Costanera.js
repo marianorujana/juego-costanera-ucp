@@ -230,6 +230,7 @@ var Costanera = (function () {
     };
     return Costanera;
 }());
+exports.Costanera = Costanera;
 // when the page has finished loading, create our game
 window.onload = function () {
     var game = new Costanera(window.innerWidth, window.innerHeight);
