@@ -33,7 +33,11 @@ var Costanera = (function () {
             getEmitter: this.getEmitter,
             setEmitter: this.setEmitter,
             collisionHandler: this.collisionHandler,
-            listener: this.listener
+            listener: this.listener,
+            getPuntos: this.getPuntos,
+            setPuntos: this.setPuntos,
+            getTextoPuntos: this.getTextoPuntos,
+            setTextoPuntos: this.setTextoPuntos
         }));
     }
     //--------------------setters y getters --------------------------------------
@@ -96,6 +100,18 @@ var Costanera = (function () {
     };
     Costanera.prototype.getEmitter = function () {
         return this.emitter;
+    };
+    Costanera.prototype.getPuntos = function () {
+        return this.puntos;
+    };
+    Costanera.prototype.setPuntos = function (value) {
+        this.puntos = value;
+    };
+    Costanera.prototype.getTextoPuntos = function () {
+        return this.textoPuntos;
+    };
+    Costanera.prototype.setTextoPuntos = function (value) {
+        this.textoPuntos = value;
     };
     Costanera.prototype.preload = function () {
         // add our logo image to the assets class under the
@@ -182,6 +198,13 @@ var Costanera = (function () {
         this.getEmitter().start(false, 1600, 1, 0);
         //this.getEmitter().gravity(0,0);
         //this.getEmitter().setRotation(90, 0);
+        //  The score
+        var scoreString = 'Puntos : ';
+        var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
+        this.setTextoPuntos(scoreText);
+        //  Lives
+        var lives = this.getGame().add.group();
+        this.getGame().add.text(this.getGame().world.width - 100, 10, 'Vidas : ', { font: '34px Arial', fill: '#fff' });
     };
     Costanera.prototype.update = function () {
         // this.game.physics.arcade.collide(this.player, platforms);
@@ -223,6 +246,9 @@ var Costanera = (function () {
         // this.getPersonaje().body.velocity.y = -800;
         objetos.kill();
         personaje.kill();
+        //  Increase the score
+        this.setPuntos(this.getPuntos() + 20);
+        this.getTextoPuntos().text = this.getPuntos().toString();
     };
     Costanera.prototype.listener = function () {
         this.getPersonaje().revive();

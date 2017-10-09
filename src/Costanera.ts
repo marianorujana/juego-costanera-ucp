@@ -14,6 +14,9 @@ export class Costanera
 	saltarBtn:Phaser.Key;
 	facing: string;
 	emitter: Phaser.Particles.Arcade.Emitter;
+	puntos:number;
+	textoPuntos: Phaser.Text;
+	
 	
 
 //--------------------setters y getters --------------------------------------
@@ -97,6 +100,22 @@ export class Costanera
 		return this.emitter;
 	}
 
+	getPuntos(){
+		return this.puntos;
+	}
+
+	setPuntos(value:number){
+		this.puntos = value;
+	}
+
+	getTextoPuntos(){
+		return this.textoPuntos;
+	}
+
+	setTextoPuntos(value:Phaser.Text){
+		this.textoPuntos = value;
+	}
+
 
 
 
@@ -133,7 +152,11 @@ export class Costanera
 			getEmitter: this.getEmitter,
 			setEmitter: this.setEmitter,
 			collisionHandler: this.collisionHandler,
-			listener: this.listener
+			listener: this.listener,
+			getPuntos: this.getPuntos,
+			setPuntos: this.setPuntos,
+			getTextoPuntos: this.getTextoPuntos,
+			setTextoPuntos: this.setTextoPuntos
 		} ));
 	}
 	
@@ -250,6 +273,17 @@ export class Costanera
 		
 		//this.getEmitter().gravity(0,0);
 		//this.getEmitter().setRotation(90, 0);
+
+
+ //  The score
+    var scoreString = 'Puntos : ';
+    var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
+		this.setTextoPuntos(scoreText);
+    //  Lives
+ 	var lives = this.getGame().add.group();
+	 this.getGame().add.text(this.getGame().world.width - 100, 10, 'Vidas : '/*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
+
+
 	}
 
 	update () {
@@ -298,7 +332,11 @@ export class Costanera
 			// this.getGame().stage.backgroundColor = '#992d2d';
 			// this.getPersonaje().body.velocity.y = -800;
 			objetos.kill();
-			personaje.kill();		
+			personaje.kill();
+			//  Increase the score
+			
+			this.setPuntos(this.getPuntos() + 20);
+			this.getTextoPuntos().text = this.getPuntos().toString();		
 		}
 
 		
