@@ -1,53 +1,10 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-// import {Bonus} from './Bonus'
-var JuegoCostanera;
-(function (JuegoCostanera) {
-    var Basurero = (function (_super) {
-        __extends(Basurero, _super);
-        function Basurero() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return Basurero;
-    }(JuegoCostanera.Bonus));
-    JuegoCostanera.Basurero = Basurero;
-})(JuegoCostanera || (JuegoCostanera = {}));
-// /// <reference path="../tsDefinitions/phaser.d.ts" />
-var JuegoCostanera;
-(function (JuegoCostanera) {
-    var Bonus = (function (_super) {
-        __extends(Bonus, _super);
-        function Bonus() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return Bonus;
-    }(Phaser.Sprite));
-    JuegoCostanera.Bonus = Bonus;
-})(JuegoCostanera || (JuegoCostanera = {}));
-// /// <reference path="../tsDefinitions/phaser.d.ts" />
-var JuegoCostanera;
-(function (JuegoCostanera) {
-    var Personaje = (function (_super) {
-        __extends(Personaje, _super);
-        function Personaje() {
-            return _super !== null && _super.apply(this, arguments) || this;
-        }
-        return Personaje;
-    }(Phaser.Sprite));
-    JuegoCostanera.Personaje = Personaje;
-})(JuegoCostanera || (JuegoCostanera = {}));
+/// <reference path="../tsDefinitions/phaser.d.ts" />
 /// <reference path="../tsDefinitions/phaser.d.ts" />
 /// <reference path="./Personaje.ts" />
 /// <reference path="./Basurero.ts" />
 /// <reference path="./Bonus.ts" />
+// import {Personaje} from './Personaje'
+// import {Basurero} from './Basurero'
 var JuegoCostanera;
 (function (JuegoCostanera) {
     var Costanera = (function () {
@@ -250,12 +207,11 @@ var JuegoCostanera;
             //this.getEmitter().setRotation(90, 0);
             //  The score
             var scoreString = 'Puntos : ';
-            this.setPuntos(0);
             var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
             this.setTextoPuntos(scoreText);
             //  Lives
             var lives = this.getGame().add.group();
-            this.getGame().add.text(this.getGame().world.width - 120, 10, 'Vidas : ' /*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
+            this.getGame().add.text(this.getGame().world.width - 100, 10, 'Vidas : ' /*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
         };
         Costanera.prototype.update = function () {
             // this.game.physics.arcade.collide(this.player, platforms);
@@ -299,7 +255,7 @@ var JuegoCostanera;
             personaje.kill();
             //  Increase the score
             this.setPuntos(this.getPuntos() + 20);
-            this.getTextoPuntos().text = "Puntos: " + this.getPuntos().toString();
+            this.getTextoPuntos().text = this.getPuntos().toString();
         };
         Costanera.prototype.listener = function () {
             this.getPersonaje().revive();

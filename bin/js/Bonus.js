@@ -1,5 +1,3 @@
-"use strict";
-// /// <reference path="../tsDefinitions/phaser.d.ts" />
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10,12 +8,15 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Personaje = (function (_super) {
-    __extends(Personaje, _super);
-    function Personaje() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return Personaje;
-}(Phaser.Sprite));
-exports.Personaje = Personaje;
+// /// <reference path="../tsDefinitions/phaser.d.ts" />
+var JuegoCostanera;
+(function (JuegoCostanera) {
+    var Bonus = (function (_super) {
+        __extends(Bonus, _super);
+        function Bonus() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        return Bonus;
+    }(Phaser.Sprite));
+    JuegoCostanera.Bonus = Bonus;
+})(JuegoCostanera || (JuegoCostanera = {}));

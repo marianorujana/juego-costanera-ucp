@@ -1,9 +1,10 @@
-// /// <reference path="../tsDefinitions/phaser.d.ts" />
-import {Personaje} from './Personaje'
-import {Basurero} from './Basurero'
+/// <reference path="../tsDefinitions/phaser.d.ts" />
+/// <reference path="./Personaje.ts" />
+/// <reference path="./Basurero.ts" />
+/// <reference path="./Bonus.ts" />
 
-export class Costanera
-{
+module JuegoCostanera {
+	export class Costanera{
 	game:Phaser.Game;
 	ancho: number;
 	alto:number;
@@ -276,12 +277,13 @@ export class Costanera
 
 
  //  The score
-    var scoreString = 'Puntos : ';
+	var scoreString = 'Puntos : ';
+	this.setPuntos(0);
     var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
 		this.setTextoPuntos(scoreText);
     //  Lives
  	var lives = this.getGame().add.group();
-	 this.getGame().add.text(this.getGame().world.width - 100, 10, 'Vidas : '/*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
+	 this.getGame().add.text(this.getGame().world.width - 120, 10, 'Vidas : '/*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
 
 
 	}
@@ -331,12 +333,12 @@ export class Costanera
 		
 			// this.getGame().stage.backgroundColor = '#992d2d';
 			// this.getPersonaje().body.velocity.y = -800;
-			objetos.kill();
-			personaje.kill();
+			// objetos.kill();
+			 personaje.kill();
 			//  Increase the score
 			
 			this.setPuntos(this.getPuntos() + 20);
-			this.getTextoPuntos().text = this.getPuntos().toString();		
+			this.getTextoPuntos().text = "Puntos: " + this.getPuntos().toString();		
 		}
 
 		
@@ -350,4 +352,6 @@ export class Costanera
 // when the page has finished loading, create our game
 window.onload = () => {
 	var game = new Costanera(window.innerWidth,window.innerHeight);
+}
+
 }
