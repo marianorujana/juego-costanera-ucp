@@ -53,6 +53,10 @@ module JuegoCostanera {
 		return this.personaje;
 	}
 
+	getPersonajeSprite ():Phaser.Sprite{
+		return this.personaje;
+	}
+
 	setBasurero(value:Basurero){
 		this.basurero = value;
 	}
@@ -101,14 +105,6 @@ module JuegoCostanera {
 		return this.emitter;
 	}
 
-	getPuntos(){
-		return this.puntos;
-	}
-
-	setPuntos(value:number){
-		this.puntos = value;
-	}
-
 	getTextoPuntos(){
 		return this.textoPuntos;
 	}
@@ -116,6 +112,8 @@ module JuegoCostanera {
 	setTextoPuntos(value:Phaser.Text){
 		this.textoPuntos = value;
 	}
+
+
 
 
 
@@ -140,6 +138,7 @@ module JuegoCostanera {
 			getAlto: this.getAlto,
 			setPersonaje: this.setPersonaje,
 			getPersonaje: this.getPersonaje,
+			getPersonajeSprite: this.getPersonajeSprite,
 			setBasurero: this.setBasurero,
 			getBasurero: this.getBasurero,
 			setBonus: this.setBonus,
@@ -154,8 +153,7 @@ module JuegoCostanera {
 			setEmitter: this.setEmitter,
 			collisionHandler: this.collisionHandler,
 			listener: this.listener,
-			getPuntos: this.getPuntos,
-			setPuntos: this.setPuntos,
+			
 			getTextoPuntos: this.getTextoPuntos,
 			setTextoPuntos: this.setTextoPuntos
 		} ));
@@ -196,20 +194,25 @@ module JuegoCostanera {
 
 		this.getGame().physics.arcade.gravity.y = 250;
 
-		var personaje = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
+		//Personaje
+		var personaje = new Personaje(this.getGame(),this.getGame().world.centerX, this.getGame().world.top, 'player');
+
+		this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
+		
+		
 		personaje.height = 200;
 		personaje.width = 100;
 		this.setPersonaje(personaje);
-		
-		this.getGame().physics.enable(this.getPersonaje(),Phaser.Physics.ARCADE);
+	
+		this.getGame().physics.enable(this.getPersonajeSprite(),Phaser.Physics.ARCADE);
 				
 		//Personaje
-		this.getPersonaje().body.collideWorldBounds = true;
-		this.getPersonaje().body.gravity.y = 500;
-		this.getPersonaje().body.setSize(20, 32, 5, 16);
-		this.getPersonaje().animations.add('left', [0, 1, 2, 3], 10, true);
-		this.getPersonaje().animations.add('turn', [4], 20, true);
-		this.getPersonaje().animations.add('right', [5, 6, 7, 8], 10, true);
+		this.getPersonajeSprite().body.collideWorldBounds = true;
+		this.getPersonajeSprite().body.gravity.y = 500;
+		this.getPersonajeSprite().body.setSize(20, 32, 5, 16);
+		this.getPersonajeSprite().animations.add('left', [0, 1, 2, 3], 10, true);
+		this.getPersonajeSprite().animations.add('turn', [4], 20, true);
+		this.getPersonajeSprite().animations.add('right', [5, 6, 7, 8], 10, true);
 		this.setFacing('left');
 
 		//Basurero
@@ -278,8 +281,8 @@ module JuegoCostanera {
 
  //  The score
 	var scoreString = 'Puntos : ';
-	this.setPuntos(0);
-    var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
+	this.getPersonaje().setPuntos(0);
+    var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPersonaje().getPuntos(), { font: '34px Arial', fill: '#fff' });
 		this.setTextoPuntos(scoreText);
     //  Lives
  	var lives = this.getGame().add.group();
@@ -292,40 +295,40 @@ module JuegoCostanera {
 		
 			// this.game.physics.arcade.collide(this.player, platforms);
 			//this.getGame().physics.arcade.collide(this.getBasurero(), this.getPersonaje(), this.collisionHandler, null, this);
-			this.getGame().physics.arcade.collide(this.getEmitter(),this.getPersonaje(),this.collisionHandler,null, this);
-			this.getPersonaje().body.velocity.x = 0;
+			this.getGame().physics.arcade.collide(this.getEmitter(),this.getPersonajeSprite(),this.collisionHandler,null, this);
+			this.getPersonajeSprite().body.velocity.x = 0;
 		
 			if (this.getCursores().left.isDown)
 			{
-				this.getPersonaje().body.velocity.x = -500;
+				this.getPersonajeSprite().body.velocity.x = -500;
 				if (this.getFacing() != 'left'){
-						this.getPersonaje().animations.play('left');
+						this.getPersonajeSprite().animations.play('left');
 						this.setFacing('left');
 				}
 			}
 			else if (this.getCursores().right.isDown){
-				this.getPersonaje().body.velocity.x = 500;
+				this.getPersonajeSprite().body.velocity.x = 500;
 				if (this.getFacing() != 'right'){
-						this.getPersonaje().animations.play('right');
+						this.getPersonajeSprite().animations.play('right');
 						this.setFacing('right');
 				}
 			} else {
 				if (this.getFacing() != 'idle'){
-						this.getPersonaje().animations.stop();
+						this.getPersonajeSprite().animations.stop();
 			
 						if (this.getFacing() == 'left'){
-							this.getPersonaje().frame = 0;
+							this.getPersonajeSprite().frame = 0;
 						}
 						else{
-							this.getPersonaje().frame = 5;
+							this.getPersonajeSprite().frame = 5;
 						}
 						this.setFacing('idle')
 				}
 			}
 		
-			if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor()))
+			if (this.getSaltarBtn().isDown && (this.getPersonajeSprite().body.onFloor()))
 			{
-				this.getPersonaje().body.velocity.y = -600;
+				this.getPersonajeSprite().body.velocity.y = -600;
 			}
 	}
 
@@ -337,13 +340,13 @@ module JuegoCostanera {
 			 personaje.kill();
 			//  Increase the score
 			
-			this.setPuntos(this.getPuntos() + 20);
-			this.getTextoPuntos().text = "Puntos: " + this.getPuntos().toString();		
+			this.getPersonaje().setPuntos(this.getPersonaje().getPuntos() + 20);
+			this.getTextoPuntos().text = "Puntos: " + this.getPersonaje().getPuntos().toString();		
 		}
 
 		
 		listener () {
-			this.getPersonaje().revive()
+			this.getPersonajeSprite().revive()
 		}
 
 	

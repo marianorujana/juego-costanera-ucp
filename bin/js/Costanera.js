@@ -1,10 +1,7 @@
 /// <reference path="../tsDefinitions/phaser.d.ts" />
-/// <reference path="../tsDefinitions/phaser.d.ts" />
 /// <reference path="./Personaje.ts" />
 /// <reference path="./Basurero.ts" />
 /// <reference path="./Bonus.ts" />
-// import {Personaje} from './Personaje'
-// import {Basurero} from './Basurero'
 var JuegoCostanera;
 (function (JuegoCostanera) {
     var Costanera = (function () {
@@ -41,8 +38,6 @@ var JuegoCostanera;
                 setEmitter: this.setEmitter,
                 collisionHandler: this.collisionHandler,
                 listener: this.listener,
-                getPuntos: this.getPuntos,
-                setPuntos: this.setPuntos,
                 getTextoPuntos: this.getTextoPuntos,
                 setTextoPuntos: this.setTextoPuntos
             }));
@@ -108,12 +103,6 @@ var JuegoCostanera;
         Costanera.prototype.getEmitter = function () {
             return this.emitter;
         };
-        Costanera.prototype.getPuntos = function () {
-            return this.puntos;
-        };
-        Costanera.prototype.setPuntos = function (value) {
-            this.puntos = value;
-        };
         Costanera.prototype.getTextoPuntos = function () {
             return this.textoPuntos;
         };
@@ -146,18 +135,20 @@ var JuegoCostanera;
             this.getGame().physics.startSystem(Phaser.Physics.ARCADE);
             this.getGame().time.desiredFps = 30;
             this.getGame().physics.arcade.gravity.y = 250;
-            var personaje = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
-            personaje.height = 200;
+            //Personaje
+            var personaje = new JuegoCostanera.Personaje(this.getGame(), this.getGame().world.centerX, this.getGame().world.top, 'player');
+            personaje.sprite = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
+            personaje.height = 2000;
             personaje.width = 100;
             this.setPersonaje(personaje);
-            this.getGame().physics.enable(this.getPersonaje(), Phaser.Physics.ARCADE);
+            this.getGame().physics.enable(this.getPersonaje().sprite, Phaser.Physics.ARCADE);
             //Personaje
-            this.getPersonaje().body.collideWorldBounds = true;
-            this.getPersonaje().body.gravity.y = 500;
-            this.getPersonaje().body.setSize(20, 32, 5, 16);
-            this.getPersonaje().animations.add('left', [0, 1, 2, 3], 10, true);
-            this.getPersonaje().animations.add('turn', [4], 20, true);
-            this.getPersonaje().animations.add('right', [5, 6, 7, 8], 10, true);
+            this.getPersonaje().sprite.body.collideWorldBounds = true;
+            this.getPersonaje().sprite.body.gravity.y = 500;
+            this.getPersonaje().sprite.body.setSize(20, 32, 5, 16);
+            this.getPersonaje().sprite.animations.add('left', [0, 1, 2, 3], 10, true);
+            this.getPersonaje().sprite.animations.add('turn', [4], 20, true);
+            this.getPersonaje().sprite.animations.add('right', [5, 6, 7, 8], 10, true);
             this.setFacing('left');
             //Basurero
             this.setBasurero(this.getGame().add.sprite(300, 50, 'basurero'));
@@ -207,11 +198,12 @@ var JuegoCostanera;
             //this.getEmitter().setRotation(90, 0);
             //  The score
             var scoreString = 'Puntos : ';
-            var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPuntos(), { font: '34px Arial', fill: '#fff' });
+            this.getPersonaje().setPuntos(0);
+            var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPersonaje().getPuntos(), { font: '34px Arial', fill: '#fff' });
             this.setTextoPuntos(scoreText);
             //  Lives
             var lives = this.getGame().add.group();
-            this.getGame().add.text(this.getGame().world.width - 100, 10, 'Vidas : ' /*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
+            this.getGame().add.text(this.getGame().world.width - 120, 10, 'Vidas : ' /*this.getPersonaje().getVidas()*/, { font: '34px Arial', fill: '#fff' });
         };
         Costanera.prototype.update = function () {
             // this.game.physics.arcade.collide(this.player, platforms);
@@ -254,8 +246,8 @@ var JuegoCostanera;
             // objetos.kill();
             personaje.kill();
             //  Increase the score
-            this.setPuntos(this.getPuntos() + 20);
-            this.getTextoPuntos().text = this.getPuntos().toString();
+            this.getPersonaje().setPuntos(this.getPersonaje().getPuntos() + 20);
+            this.getTextoPuntos().text = "Puntos: " + this.getPersonaje().getPuntos().toString();
         };
         Costanera.prototype.listener = function () {
             this.getPersonaje().revive();

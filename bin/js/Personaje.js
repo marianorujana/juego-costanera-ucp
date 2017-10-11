@@ -16,6 +16,18 @@ var JuegoCostanera;
         function Personaje() {
             return _super !== null && _super.apply(this, arguments) || this;
         }
+        Personaje.prototype.getPuntos = function () {
+            return this.puntos;
+        };
+        Personaje.prototype.setPuntos = function (value) {
+            this.puntos = value;
+        };
+        Personaje.prototype.getSprite = function () {
+            return this.sprite;
+        };
+        Personaje.prototype.setSprite = function (value) {
+            this.sprite = value;
+        };
         return Personaje;
     }(Phaser.Sprite));
     JuegoCostanera.Personaje = Personaje;
