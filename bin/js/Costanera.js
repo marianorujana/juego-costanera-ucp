@@ -6,12 +6,6 @@ var JuegoCostanera;
 (function (JuegoCostanera) {
     var Costanera = (function () {
         function Costanera(ancho, alto) {
-            // create our phaser game
-            // 800 - width
-            // 600 - height
-            // Phaser.AUTO - determine the renderer automatically (canvas, webgl)
-            // 'content' - the name of the container to add our game to
-            // { preload:this.preload, create:this.create} - functions to call for our states
             this.setGame(new Phaser.Game(ancho, alto, Phaser.CANVAS, 'content', {
                 preload: this.preload,
                 create: this.create,
@@ -32,8 +26,6 @@ var JuegoCostanera;
                 getCursores: this.getCursores,
                 setSaltarBtn: this.setSaltarBtn,
                 getSaltarBtn: this.getSaltarBtn,
-                getFacing: this.getFacing,
-                setFacing: this.setFacing,
                 getEmitter: this.getEmitter,
                 setEmitter: this.setEmitter,
                 collisionHandler: this.collisionHandler,
@@ -91,12 +83,6 @@ var JuegoCostanera;
         Costanera.prototype.getSaltarBtn = function () {
             return this.saltarBtn;
         };
-        Costanera.prototype.setFacing = function (facing) {
-            this.facing = facing;
-        };
-        Costanera.prototype.getFacing = function () {
-            return this.facing;
-        };
         Costanera.prototype.setEmitter = function (value) {
             this.emitter = value;
         };
@@ -117,14 +103,8 @@ var JuegoCostanera;
             this.getGame().load.image('bonus', 'assets/hamburguesa.png');
             this.getGame().load.spritesheet('player', 'sprites/dude.png', 32, 48);
             this.getGame().load.image('costanera', "assets/costanera.jpg");
-            //Agregamos un comentario para probar subir cambios a GIT desde el editor
-            //hacemos un cambio en el archivo
         };
         Costanera.prototype.create = function () {
-            // add the 'logo' sprite to the game, position it in the
-            // center of the screen, and set the anchor to the center of
-            // the image so it's centered properly. There's a lot of
-            // centering in that last sentence
             //Seteamos la imagen del juego en la posicion '0,0'
             //y el ancho y alto de la misma según el tamaño de la ventana actual
             var logo = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.centerY, 'costanera');
@@ -137,19 +117,7 @@ var JuegoCostanera;
             this.getGame().physics.arcade.gravity.y = 250;
             //Personaje
             var personaje = new JuegoCostanera.Personaje(this.getGame(), this.getGame().world.centerX, this.getGame().world.top, 'player');
-            personaje.sprite = this.getGame().add.sprite(this.getGame().world.centerX, this.getGame().world.top, 'player');
-            personaje.height = 2000;
-            personaje.width = 100;
             this.setPersonaje(personaje);
-            this.getGame().physics.enable(this.getPersonaje().sprite, Phaser.Physics.ARCADE);
-            //Personaje
-            this.getPersonaje().sprite.body.collideWorldBounds = true;
-            this.getPersonaje().sprite.body.gravity.y = 500;
-            this.getPersonaje().sprite.body.setSize(20, 32, 5, 16);
-            this.getPersonaje().sprite.animations.add('left', [0, 1, 2, 3], 10, true);
-            this.getPersonaje().sprite.animations.add('turn', [4], 20, true);
-            this.getPersonaje().sprite.animations.add('right', [5, 6, 7, 8], 10, true);
-            this.setFacing('left');
             //Basurero
             this.setBasurero(this.getGame().add.sprite(300, 50, 'basurero'));
             this.getBasurero().name = 'basurero';
@@ -212,28 +180,28 @@ var JuegoCostanera;
             this.getPersonaje().body.velocity.x = 0;
             if (this.getCursores().left.isDown) {
                 this.getPersonaje().body.velocity.x = -500;
-                if (this.getFacing() != 'left') {
+                if (this.getPersonaje().getOrientacion() != 'left') {
                     this.getPersonaje().animations.play('left');
-                    this.setFacing('left');
+                    this.getPersonaje().setOrientacion('left');
                 }
             }
             else if (this.getCursores().right.isDown) {
                 this.getPersonaje().body.velocity.x = 500;
-                if (this.getFacing() != 'right') {
+                if (this.getPersonaje().getOrientacion() != 'right') {
                     this.getPersonaje().animations.play('right');
-                    this.setFacing('right');
+                    this.getPersonaje().setOrientacion('right');
                 }
             }
             else {
-                if (this.getFacing() != 'idle') {
+                if (this.getPersonaje().getOrientacion() != 'idle') {
                     this.getPersonaje().animations.stop();
-                    if (this.getFacing() == 'left') {
+                    if (this.getPersonaje().getOrientacion() == 'left') {
                         this.getPersonaje().frame = 0;
                     }
                     else {
                         this.getPersonaje().frame = 5;
                     }
-                    this.setFacing('idle');
+                    this.getPersonaje().setOrientacion('idle');
                 }
             }
             if (this.getSaltarBtn().isDown && (this.getPersonaje().body.onFloor())) {
