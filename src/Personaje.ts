@@ -19,7 +19,9 @@ module JuegoCostanera{
 		    this.animations.add('turn', [4], 20, true);
 		    this.animations.add('right', [5, 6, 7, 8], 10, true);
 		    this.setOrientacion('left');        
-
+            
+            this.setPuntos(0);
+            this.setVidas (3);
             game.add.existing(this);
 
         }
@@ -30,6 +32,14 @@ module JuegoCostanera{
     
         setPuntos(value:number){
             this.puntos = value;
+        }
+
+        getVidas(){
+            return this.vidas;
+        }
+    
+        setVidas(value:number){
+            this.vidas = value;
         }
 
         setOrientacion(value: string){

@@ -25,6 +25,8 @@ var JuegoCostanera;
             _this.animations.add('turn', [4], 20, true);
             _this.animations.add('right', [5, 6, 7, 8], 10, true);
             _this.setOrientacion('left');
+            _this.setPuntos(0);
+            _this.setVidas(3);
             game.add.existing(_this);
             return _this;
         }
@@ -33,6 +35,12 @@ var JuegoCostanera;
         };
         Personaje.prototype.setPuntos = function (value) {
             this.puntos = value;
+        };
+        Personaje.prototype.getVidas = function () {
+            return this.vidas;
+        };
+        Personaje.prototype.setVidas = function (value) {
+            this.vidas = value;
         };
         Personaje.prototype.setOrientacion = function (value) {
             this.orientacion = value;
