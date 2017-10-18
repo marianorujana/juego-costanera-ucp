@@ -26,8 +26,8 @@ var JuegoCostanera;
                 getCursores: this.getCursores,
                 setSaltarBtn: this.setSaltarBtn,
                 getSaltarBtn: this.getSaltarBtn,
-                getEmitterBasurero: this.getEmitterBasurero,
-                setEmitterBasurero: this.setEmitterBasurero,
+                // getEmitterBasurero: this.getEmitterBasurero,
+                // setEmitterBasurero: this.setEmitterBasurero,
                 getEmitterBonus: this.getEmitterBonus,
                 setEmitterBonus: this.setEmitterBonus,
                 collisionBasurero: this.collisionBasurero,
@@ -39,7 +39,7 @@ var JuegoCostanera;
                 setTextoVidas: this.setTextoVidas
             }));
         }
-        //--------------------setters y getters --------------------------------------
+        //--	------------------setters y getters --------------------------------------
         Costanera.prototype.setGame = function (game) {
             this.game = game;
         };
@@ -88,12 +88,12 @@ var JuegoCostanera;
         Costanera.prototype.getSaltarBtn = function () {
             return this.saltarBtn;
         };
-        Costanera.prototype.setEmitterBasurero = function (value) {
-            this.emitterBasurero = value;
-        };
-        Costanera.prototype.getEmitterBasurero = function () {
-            return this.emitterBasurero;
-        };
+        // setEmitterBasurero(value: Phaser.Particles.Arcade.Emitter){
+        // 	this.emitterBasurero = value
+        // }
+        // getEmitterBasurero(){
+        // 	return this.emitterBasurero;
+        // }
         Costanera.prototype.setEmitterBonus = function (value) {
             this.emitterBonus = value;
         };
@@ -136,12 +136,12 @@ var JuegoCostanera;
             var personaje = new JuegoCostanera.Personaje(this.getGame(), this.getGame().world.centerX, this.getGame().world.top, 'player');
             this.setPersonaje(personaje);
             //Basurero
-            var basurero = this.getGame().add.sprite(300, 50, 'basurero');
+            var basurero = new JuegoCostanera.Basurero(this.getGame(), 300, 50, 'basurero');
             this.setBasurero(basurero);
-            this.getBasurero().name = 'basurero';
+            // this.getBasurero().name = 'basurero';
             this.getGame().physics.enable(this.getBasurero(), Phaser.Physics.ARCADE);
-            //  This adjusts the collision body size.
-            this.getBasurero().body.setSize(10, 10, 0, 0);
+            // //  This adjusts the collision body size.
+            // this.getBasurero().body.setSize(10, 10, 0, 0);
             //bonus
             var bonus = this.getGame().add.sprite(300, 50, 'bonus');
             this.setBonus(bonus);
@@ -155,13 +155,13 @@ var JuegoCostanera;
             this.setCursores(this.getGame().input.keyboard.createCursorKeys());
             this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
             //emitter Basurero
-            var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
-            this.setEmitterBasurero(emitter);
-            this.getEmitterBasurero().width = this.getGame().world.width;
-            this.getEmitterBasurero().makeParticles('basurero', null, 1, true);
-            this.getEmitterBasurero().setYSpeed(100, 200);
-            this.getEmitterBasurero().setXSpeed(-5, 5);
-            this.getEmitterBasurero().start(false, 1600, 1, 0);
+            // var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
+            // this.setEmitterBasurero(emitter);
+            // this.getEmitterBasurero().width = this.getGame().world.width;
+            // this.getEmitterBasurero().makeParticles('basurero',null,1,true);
+            // this.getEmitterBasurero().setYSpeed(100, 200);
+            // this.getEmitterBasurero().setXSpeed(-5, 5);
+            // this.getEmitterBasurero().start(false, 1600, 1, 0);
             //emitter bonus
             var emitterBonus = this.getGame().add.emitter(this.getGame().world.width, this.getGame().world.bottom - 100, 5);
             this.setEmitterBonus(emitterBonus);
@@ -180,7 +180,7 @@ var JuegoCostanera;
             this.setTextoVidas(vidasText);
         };
         Costanera.prototype.update = function () {
-            this.getGame().physics.arcade.collide(this.getEmitterBasurero(), this.getPersonaje(), this.collisionBasurero, null, this);
+            this.getGame().physics.arcade.collide(this.getBasurero().getEmitterBasureros(), this.getPersonaje(), this.collisionBasurero, null, this);
             this.getGame().physics.arcade.collide(this.getEmitterBonus(), this.getPersonaje(), this.collisionBonus, null, this);
             this.getPersonaje().body.velocity.x = 0;
             if (this.getCursores().left.isDown) {

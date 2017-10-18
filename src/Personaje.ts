@@ -22,6 +22,7 @@ module JuegoCostanera{
             
             this.setPuntos(0);
             this.setVidas (3);
+            //Para agregar el objeto al juego
             game.add.existing(this);
 
         }

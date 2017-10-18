@@ -13,9 +13,37 @@ var JuegoCostanera;
 (function (JuegoCostanera) {
     var Basurero = (function (_super) {
         __extends(Basurero, _super);
-        function Basurero() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function Basurero(game, x, y, frame) {
+            var _this = _super.call(this, game, x, y, frame) || this;
+            var basurero = game.add.sprite(300, 50, 'basurero');
+            _this.setBasurero(basurero);
+            _this.getBasurero().name = 'basurero';
+            game.physics.enable(_this.getBasurero(), Phaser.Physics.ARCADE);
+            //  This adjusts the collision body size.
+            _this.getBasurero().body.setSize(10, 10, 0, 0);
+            var emitter = game.add.emitter(game.world.centerX, game.world.top, 5);
+            _this.setEmitterBasureros(emitter);
+            _this.getEmitterBasureros().width = game.world.width;
+            _this.getEmitterBasureros().makeParticles('basurero', null, 1, true);
+            _this.getEmitterBasureros().setYSpeed(100, 500);
+            _this.getEmitterBasureros().setXSpeed(-5, 5);
+            _this.getEmitterBasureros().start(false, 1600, 1, 0);
+            //Para agregar el objeto al juego
+            game.add.existing(_this);
+            return _this;
         }
+        Basurero.prototype.setEmitterBasureros = function (value) {
+            this.emitterBasureros = value;
+        };
+        Basurero.prototype.getEmitterBasureros = function () {
+            return this.emitterBasureros;
+        };
+        Basurero.prototype.setBasurero = function (value) {
+            this.basurero = value;
+        };
+        Basurero.prototype.getBasurero = function () {
+            return this.basurero;
+        };
         return Basurero;
     }(JuegoCostanera.Bonus));
     JuegoCostanera.Basurero = Basurero;

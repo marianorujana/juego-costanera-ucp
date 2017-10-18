@@ -27,6 +27,7 @@ var JuegoCostanera;
             _this.setOrientacion('left');
             _this.setPuntos(0);
             _this.setVidas(3);
+            //Para agregar el objeto al juego
             game.add.existing(_this);
             return _this;
         }

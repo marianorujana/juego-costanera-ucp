@@ -13,7 +13,7 @@ module JuegoCostanera {
 		bonus: Phaser.Sprite;
 		cursores:Phaser.CursorKeys;
 		saltarBtn:Phaser.Key;
-		emitterBasurero: Phaser.Particles.Arcade.Emitter;
+		// emitterBasurero: Phaser.Particles.Arcade.Emitter;
 		emitterBonus: Phaser.Particles.Arcade.Emitter;
 		textoVidas: Phaser.Text;
 		textoPuntos: Phaser.Text;
@@ -83,13 +83,13 @@ module JuegoCostanera {
 			return this.saltarBtn;
 		}
 
-		setEmitterBasurero(value: Phaser.Particles.Arcade.Emitter){
-			this.emitterBasurero = value
-		}
+		// setEmitterBasurero(value: Phaser.Particles.Arcade.Emitter){
+		// 	this.emitterBasurero = value
+		// }
 
-		getEmitterBasurero(){
-			return this.emitterBasurero;
-		}
+		// getEmitterBasurero(){
+		// 	return this.emitterBasurero;
+		// }
 
 		setEmitterBonus(value: Phaser.Particles.Arcade.Emitter){
 			this.emitterBonus = value
@@ -137,8 +137,8 @@ module JuegoCostanera {
 				getCursores: this.getCursores,
 				setSaltarBtn: this.setSaltarBtn,
 				getSaltarBtn: this.getSaltarBtn,
-				getEmitterBasurero: this.getEmitterBasurero,
-				setEmitterBasurero: this.setEmitterBasurero,
+				// getEmitterBasurero: this.getEmitterBasurero,
+				// setEmitterBasurero: this.setEmitterBasurero,
 				getEmitterBonus: this.getEmitterBonus,
 				setEmitterBonus: this.setEmitterBonus,
 				collisionBasurero: this.collisionBasurero,
@@ -181,12 +181,12 @@ module JuegoCostanera {
 			this.setPersonaje(personaje);
 		
 			//Basurero
-			var basurero = this.getGame().add.sprite(300, 50, 'basurero')
+			var basurero = new Basurero(this.getGame(),300, 50, 'basurero');
 			this.setBasurero(basurero);
-			this.getBasurero().name = 'basurero';
+			// this.getBasurero().name = 'basurero';
 			this.getGame().physics.enable(this.getBasurero(), Phaser.Physics.ARCADE);
-			//  This adjusts the collision body size.
-			this.getBasurero().body.setSize(10, 10, 0, 0);
+			// //  This adjusts the collision body size.
+			// this.getBasurero().body.setSize(10, 10, 0, 0);
 
 			//bonus
 			var bonus = this.getGame().add.sprite(300, 50, 'bonus');
@@ -203,13 +203,13 @@ module JuegoCostanera {
 			this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
 
 			//emitter Basurero
-			var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
-			this.setEmitterBasurero(emitter);
-			this.getEmitterBasurero().width = this.getGame().world.width;
-			this.getEmitterBasurero().makeParticles('basurero',null,1,true);
-			this.getEmitterBasurero().setYSpeed(100, 200);
-			this.getEmitterBasurero().setXSpeed(-5, 5);
-			this.getEmitterBasurero().start(false, 1600, 1, 0);
+			// var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
+			// this.setEmitterBasurero(emitter);
+			// this.getEmitterBasurero().width = this.getGame().world.width;
+			// this.getEmitterBasurero().makeParticles('basurero',null,1,true);
+			// this.getEmitterBasurero().setYSpeed(100, 200);
+			// this.getEmitterBasurero().setXSpeed(-5, 5);
+			// this.getEmitterBasurero().start(false, 1600, 1, 0);
 
 			//emitter bonus
 			var emitterBonus = this.getGame().add.emitter(this.getGame().world.width,this.getGame().world.bottom - 100, 5);
@@ -233,7 +233,7 @@ module JuegoCostanera {
 
 		update () 
 		{
-			this.getGame().physics.arcade.collide(this.getEmitterBasurero(),this.getPersonaje(),this.collisionBasurero,null, this);
+			this.getGame().physics.arcade.collide(this.getBasurero().getEmitterBasureros(),this.getPersonaje(),this.collisionBasurero,null, this);
 			this.getGame().physics.arcade.collide(this.getEmitterBonus(),this.getPersonaje(),this.collisionBonus,null, this);
 
 			this.getPersonaje().body.velocity.x = 0;
