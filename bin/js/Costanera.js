@@ -1,6 +1,7 @@
 /// <reference path="../tsDefinitions/phaser.d.ts" />
 /// <reference path="./Personaje.ts" />
 /// <reference path="./Basurero.ts" />
+/// <reference path="./Hamburguesa.ts" />
 /// <reference path="./Bonus.ts" />
 var JuegoCostanera;
 (function (JuegoCostanera) {
@@ -20,18 +21,14 @@ var JuegoCostanera;
                 getPersonaje: this.getPersonaje,
                 setBasurero: this.setBasurero,
                 getBasurero: this.getBasurero,
-                setBonus: this.setBonus,
-                getBonus: this.getBonus,
+                setHamburguesa: this.setHamburguesa,
+                getHamburguesa: this.getHamburguesa,
                 setCursores: this.setCursores,
                 getCursores: this.getCursores,
                 setSaltarBtn: this.setSaltarBtn,
                 getSaltarBtn: this.getSaltarBtn,
-                // getEmitterBasurero: this.getEmitterBasurero,
-                // setEmitterBasurero: this.setEmitterBasurero,
-                getEmitterBonus: this.getEmitterBonus,
-                setEmitterBonus: this.setEmitterBonus,
                 collisionBasurero: this.collisionBasurero,
-                collisionBonus: this.collisionBonus,
+                collisionHamburguesa: this.collisionHamburguesa,
                 listener: this.listener,
                 getTextoPuntos: this.getTextoPuntos,
                 setTextoPuntos: this.setTextoPuntos,
@@ -70,11 +67,11 @@ var JuegoCostanera;
         Costanera.prototype.getBasurero = function () {
             return this.basurero;
         };
-        Costanera.prototype.setBonus = function (value) {
-            this.bonus = value;
+        Costanera.prototype.setHamburguesa = function (value) {
+            this.hamburguesa = value;
         };
-        Costanera.prototype.getBonus = function () {
-            return this.bonus;
+        Costanera.prototype.getHamburguesa = function () {
+            return this.hamburguesa;
         };
         Costanera.prototype.setCursores = function (cursores) {
             this.cursores = cursores;
@@ -87,18 +84,6 @@ var JuegoCostanera;
         };
         Costanera.prototype.getSaltarBtn = function () {
             return this.saltarBtn;
-        };
-        // setEmitterBasurero(value: Phaser.Particles.Arcade.Emitter){
-        // 	this.emitterBasurero = value
-        // }
-        // getEmitterBasurero(){
-        // 	return this.emitterBasurero;
-        // }
-        Costanera.prototype.setEmitterBonus = function (value) {
-            this.emitterBonus = value;
-        };
-        Costanera.prototype.getEmitterBonus = function () {
-            return this.emitterBonus;
         };
         Costanera.prototype.getTextoPuntos = function () {
             return this.textoPuntos;
@@ -138,17 +123,12 @@ var JuegoCostanera;
             //Basurero
             var basurero = new JuegoCostanera.Basurero(this.getGame(), 300, 50, 'basurero');
             this.setBasurero(basurero);
-            // this.getBasurero().name = 'basurero';
             this.getGame().physics.enable(this.getBasurero(), Phaser.Physics.ARCADE);
-            // //  This adjusts the collision body size.
-            // this.getBasurero().body.setSize(10, 10, 0, 0);
-            //bonus
-            var bonus = this.getGame().add.sprite(300, 50, 'bonus');
-            this.setBonus(bonus);
-            bonus.name = 'bonus';
-            this.getGame().physics.enable(bonus, Phaser.Physics.ARCADE);
-            //  This adjusts the collision body size.
-            this.getBonus().body.setSize(10, 10, 0, 0);
+            //Hamburguesa
+            var hamburguesa = new JuegoCostanera.Hamburguesa(this.getGame(), 300, 50, 'bonus');
+            this.setHamburguesa(hamburguesa);
+            hamburguesa.name = 'bonus';
+            this.getGame().physics.enable(hamburguesa, Phaser.Physics.ARCADE);
             //Click event
             logo.inputEnabled = true;
             logo.events.onInputDown.add(this.listener, this);
@@ -162,14 +142,14 @@ var JuegoCostanera;
             // this.getEmitterBasurero().setYSpeed(100, 200);
             // this.getEmitterBasurero().setXSpeed(-5, 5);
             // this.getEmitterBasurero().start(false, 1600, 1, 0);
-            //emitter bonus
-            var emitterBonus = this.getGame().add.emitter(this.getGame().world.width, this.getGame().world.bottom - 100, 5);
-            this.setEmitterBonus(emitterBonus);
-            this.getEmitterBonus().makeParticles('bonus', null, 1, true);
-            this.getEmitterBonus().setYSpeed(-100, 0);
-            this.getEmitterBonus().setXSpeed(-1000, -500);
-            this.getEmitterBonus().gravity.y = -100;
-            this.getEmitterBonus().start(false, 1600, 1, 0);
+            // //emitter bonus
+            // var emitterBonus = this.getGame().add.emitter(this.getGame().world.width,this.getGame().world.bottom - 100, 5);
+            // this.setEmitterBonus(emitterBonus);
+            // this.getEmitterBonus().makeParticles('bonus',null,1,true);
+            // this.getEmitterBonus().setYSpeed(-100, 0);
+            // this.getEmitterBonus().setXSpeed(-1000, -500);
+            // this.getEmitterBonus().gravity.y = -100;
+            // this.getEmitterBonus().start(false, 1600, 1, 0);
             //  Puntos
             var scoreString = 'Puntos: ';
             var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPersonaje().getPuntos(), { font: '34px Arial', fill: '#fff' });
@@ -181,7 +161,7 @@ var JuegoCostanera;
         };
         Costanera.prototype.update = function () {
             this.getGame().physics.arcade.collide(this.getBasurero().getEmitterBasureros(), this.getPersonaje(), this.collisionBasurero, null, this);
-            this.getGame().physics.arcade.collide(this.getEmitterBonus(), this.getPersonaje(), this.collisionBonus, null, this);
+            this.getGame().physics.arcade.collide(this.getHamburguesa().getEmitterHamburguesas(), this.getPersonaje(), this.collisionHamburguesa, null, this);
             this.getPersonaje().body.velocity.x = 0;
             if (this.getCursores().left.isDown) {
                 this.getPersonaje().body.velocity.x = -500;
@@ -220,7 +200,7 @@ var JuegoCostanera;
             this.getPersonaje().setVidas(this.getPersonaje().getVidas() - 1);
             this.getTextoVidas().text = "Vidas: " + this.getPersonaje().getVidas().toString();
         };
-        Costanera.prototype.collisionBonus = function (hamburguesas, personaje) {
+        Costanera.prototype.collisionHamburguesa = function (hamburguesas, personaje) {
             personaje.kill();
             //  Increase the score
             this.getPersonaje().setPuntos(this.getPersonaje().getPuntos() + 20);

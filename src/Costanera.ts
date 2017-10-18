@@ -1,6 +1,7 @@
 /// <reference path="../tsDefinitions/phaser.d.ts" />
 /// <reference path="./Personaje.ts" />
 /// <reference path="./Basurero.ts" />
+/// <reference path="./Hamburguesa.ts" />
 /// <reference path="./Bonus.ts" />
 
 module JuegoCostanera {
@@ -10,11 +11,9 @@ module JuegoCostanera {
 		alto:number;
 		personaje: Personaje;
 		basurero: Basurero;
-		bonus: Phaser.Sprite;
+		hamburguesa: Hamburguesa;
 		cursores:Phaser.CursorKeys;
 		saltarBtn:Phaser.Key;
-		// emitterBasurero: Phaser.Particles.Arcade.Emitter;
-		emitterBonus: Phaser.Particles.Arcade.Emitter;
 		textoVidas: Phaser.Text;
 		textoPuntos: Phaser.Text;
 
@@ -59,12 +58,12 @@ module JuegoCostanera {
 			return this.basurero;
 		}
 
-		setBonus(value: Phaser.Sprite){
-			this.bonus = value;
+		setHamburguesa(value: Hamburguesa){
+			this.hamburguesa = value;
 		}
 
-		getBonus (){
-			return this.bonus;
+		getHamburguesa (){
+			return this.hamburguesa;
 		}
 
 		setCursores(cursores: Phaser.CursorKeys ){
@@ -81,22 +80,6 @@ module JuegoCostanera {
 
 		getSaltarBtn (){
 			return this.saltarBtn;
-		}
-
-		// setEmitterBasurero(value: Phaser.Particles.Arcade.Emitter){
-		// 	this.emitterBasurero = value
-		// }
-
-		// getEmitterBasurero(){
-		// 	return this.emitterBasurero;
-		// }
-
-		setEmitterBonus(value: Phaser.Particles.Arcade.Emitter){
-			this.emitterBonus = value
-		}
-
-		getEmitterBonus(){
-			return this.emitterBonus;
 		}
 
 		getTextoPuntos(){
@@ -131,18 +114,14 @@ module JuegoCostanera {
 				getPersonaje: this.getPersonaje,
 				setBasurero: this.setBasurero,
 				getBasurero: this.getBasurero,
-				setBonus: this.setBonus,
-				getBonus: this.getBonus,
+				setHamburguesa: this.setHamburguesa,
+				getHamburguesa: this.getHamburguesa,
 				setCursores: this.setCursores,
 				getCursores: this.getCursores,
 				setSaltarBtn: this.setSaltarBtn,
 				getSaltarBtn: this.getSaltarBtn,
-				// getEmitterBasurero: this.getEmitterBasurero,
-				// setEmitterBasurero: this.setEmitterBasurero,
-				getEmitterBonus: this.getEmitterBonus,
-				setEmitterBonus: this.setEmitterBonus,
 				collisionBasurero: this.collisionBasurero,
-				collisionBonus: this.collisionBonus,
+				collisionHamburguesa: this.collisionHamburguesa,
 				listener: this.listener,
 				getTextoPuntos: this.getTextoPuntos,
 				setTextoPuntos: this.setTextoPuntos,
@@ -183,42 +162,19 @@ module JuegoCostanera {
 			//Basurero
 			var basurero = new Basurero(this.getGame(),300, 50, 'basurero');
 			this.setBasurero(basurero);
-			// this.getBasurero().name = 'basurero';
 			this.getGame().physics.enable(this.getBasurero(), Phaser.Physics.ARCADE);
-			// //  This adjusts the collision body size.
-			// this.getBasurero().body.setSize(10, 10, 0, 0);
 
-			//bonus
-			var bonus = this.getGame().add.sprite(300, 50, 'bonus');
-			this.setBonus(bonus);
-			bonus.name = 'bonus';
-			this.getGame().physics.enable(bonus, Phaser.Physics.ARCADE);
-			//  This adjusts the collision body size.
-			this.getBonus().body.setSize(10, 10, 0, 0);
+			//Hamburguesa
+			var hamburguesa = new Hamburguesa(this.getGame(),300, 50, 'bonus');
+			this.setHamburguesa(hamburguesa);
+			hamburguesa.name = 'bonus';
+			this.getGame().physics.enable(hamburguesa, Phaser.Physics.ARCADE);
 
 			//Click event
 			logo.inputEnabled = true;
 			logo.events.onInputDown.add(this.listener, this);
 			this.setCursores(this.getGame().input.keyboard.createCursorKeys());
 			this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
-
-			//emitter Basurero
-			// var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
-			// this.setEmitterBasurero(emitter);
-			// this.getEmitterBasurero().width = this.getGame().world.width;
-			// this.getEmitterBasurero().makeParticles('basurero',null,1,true);
-			// this.getEmitterBasurero().setYSpeed(100, 200);
-			// this.getEmitterBasurero().setXSpeed(-5, 5);
-			// this.getEmitterBasurero().start(false, 1600, 1, 0);
-
-			//emitter bonus
-			var emitterBonus = this.getGame().add.emitter(this.getGame().world.width,this.getGame().world.bottom - 100, 5);
-			this.setEmitterBonus(emitterBonus);
-			this.getEmitterBonus().makeParticles('bonus',null,1,true);
-			this.getEmitterBonus().setYSpeed(-100, 0);
-			this.getEmitterBonus().setXSpeed(-1000, -500);
-			this.getEmitterBonus().gravity.y = -100;
-			this.getEmitterBonus().start(false, 1600, 1, 0);
 
  			//  Puntos
 			var scoreString = 'Puntos: ';
@@ -234,7 +190,7 @@ module JuegoCostanera {
 		update () 
 		{
 			this.getGame().physics.arcade.collide(this.getBasurero().getEmitterBasureros(),this.getPersonaje(),this.collisionBasurero,null, this);
-			this.getGame().physics.arcade.collide(this.getEmitterBonus(),this.getPersonaje(),this.collisionBonus,null, this);
+			this.getGame().physics.arcade.collide(this.getHamburguesa().getEmitterHamburguesas(),this.getPersonaje(),this.collisionHamburguesa,null, this);
 
 			this.getPersonaje().body.velocity.x = 0;
 			if (this.getCursores().left.isDown)
@@ -281,7 +237,7 @@ module JuegoCostanera {
 			this.getTextoVidas().text = "Vidas: " + this.getPersonaje().getVidas().toString();		
 		}
 
-		collisionBonus (hamburguesas, personaje) 
+		collisionHamburguesa (hamburguesas, personaje) 
 		{
 			personaje.kill();
 			//  Increase the score

@@ -15,9 +15,9 @@ var JuegoCostanera;
         __extends(Basurero, _super);
         function Basurero(game, x, y, frame) {
             var _this = _super.call(this, game, x, y, frame) || this;
-            var basurero = game.add.sprite(300, 50, 'basurero');
+            var basurero = game.add.sprite(x, y, frame);
             _this.setBasurero(basurero);
-            _this.getBasurero().name = 'basurero';
+            _this.getBasurero().name = frame;
             game.physics.enable(_this.getBasurero(), Phaser.Physics.ARCADE);
             //  This adjusts the collision body size.
             _this.getBasurero().body.setSize(10, 10, 0, 0);
