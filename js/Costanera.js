@@ -134,22 +134,6 @@ var JuegoCostanera;
             logo.events.onInputDown.add(this.listener, this);
             this.setCursores(this.getGame().input.keyboard.createCursorKeys());
             this.setSaltarBtn(this.getGame().input.keyboard.addKey(Phaser.Keyboard.SPACEBAR));
-            //emitter Basurero
-            // var emitter = this.getGame().add.emitter(this.getGame().world.centerX, 5, 5);
-            // this.setEmitterBasurero(emitter);
-            // this.getEmitterBasurero().width = this.getGame().world.width;
-            // this.getEmitterBasurero().makeParticles('basurero',null,1,true);
-            // this.getEmitterBasurero().setYSpeed(100, 200);
-            // this.getEmitterBasurero().setXSpeed(-5, 5);
-            // this.getEmitterBasurero().start(false, 1600, 1, 0);
-            // //emitter bonus
-            // var emitterBonus = this.getGame().add.emitter(this.getGame().world.width,this.getGame().world.bottom - 100, 5);
-            // this.setEmitterBonus(emitterBonus);
-            // this.getEmitterBonus().makeParticles('bonus',null,1,true);
-            // this.getEmitterBonus().setYSpeed(-100, 0);
-            // this.getEmitterBonus().setXSpeed(-1000, -500);
-            // this.getEmitterBonus().gravity.y = -100;
-            // this.getEmitterBonus().start(false, 1600, 1, 0);
             //  Puntos
             var scoreString = 'Puntos: ';
             var scoreText = this.getGame().add.text(10, 10, scoreString + this.getPersonaje().getPuntos(), { font: '34px Arial', fill: '#fff' });

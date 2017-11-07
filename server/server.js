@@ -4,7 +4,7 @@ var http		= require( 'http' );		// default node http server
 var port		= 5858;						// NOTE: this is the same port as specified in launch.json
 
 // create our file server config
-var file = new nodeStatic.Server( 'bin', { 	// anything in the bin/ folder is served
+var file = new nodeStatic.Server( '.', { 	// anything in the bin/ folder is served
 	cache:0,								// no cache (only for testing)
 	gzip:true								// gzip our assets
 });

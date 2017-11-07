@@ -24,7 +24,7 @@ var JuegoCostanera;
             var emitter = game.add.emitter(game.world.centerX, game.world.top, 5);
             _this.setEmitterBasureros(emitter);
             _this.getEmitterBasureros().width = game.world.width;
-            _this.getEmitterBasureros().makeParticles('basurero', null, 1, true);
+            _this.getEmitterBasureros().makeParticles(frame, null, 1, true);
             _this.getEmitterBasureros().setYSpeed(100, 500);
             _this.getEmitterBasureros().setXSpeed(-5, 5);
             _this.getEmitterBasureros().start(false, 1600, 1, 0);
